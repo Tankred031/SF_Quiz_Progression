@@ -376,20 +376,20 @@ const questions = {
         },
         {
             group: "machines",
-            question: "***",
+            question: "Koga HAL sabotira? ",
             answers: [
-                "=== krivi odgovor",
-                "=== krivi odgovor",
-                "=*= točan odgovor"
+                "=== Cindy i George-a",
+                "=== Bob i Jules-a",
+                "=*= Frank i Dave-a"
             ]
         },
         {
             group: "dystopia",
-            question: "***",
+            question: "kuhar iz 'Forbidden Planet' je od Robbija tražio što?",
             answers: [
-                "=== krivi odgovor",
-                "=== krivi odgovor",
-                "=*= točan odgovor"
+                "=== Zabranjeno voće (Forbidden fruit)",
+                "=== Zabranjene začine (Forbidden ingrediets)",
+                "=*= Pravu stvar (Real stuff)"
             ]
         }
     ],
@@ -415,11 +415,11 @@ const questions = {
         },
         {
             group: "aliens",
-            question: "***",
+            question: "U filmu 'Andromeda Strain' susret prežive samo:",
             answers: [
-                "=== krivi odgovor",
-                "=== krivi odgovor",
-                "=*= točan odgovor"
+                "=== 2 onesvještena narkomana",
+                "=== ptice i ribe",
+                "=*= beba i alkoholičar"
             ]
         },
         {
@@ -523,11 +523,11 @@ const questions = {
         },
         {
             group: "aliens",
-            question: "***",
+            question: "Tko ne može otići jer ima važan eksperiment koji....",
             answers: [
-                "=== krivi odgovor",
-                "=== krivi odgovor",
-                "=*= točan odgovor"
+                "=== Dr. Jeremy Stone",
+                "=== Dr. Mark Hall",
+                "=*= Dr. Ruth Leavitt"
             ]
         },
         {
@@ -568,11 +568,11 @@ const questions = {
         },
         {
             group: "dystopia",
-            question: "***",
+            question: "Ime kćeri Dr. Edwarda Morbiusa iz 'Forbidden Planet' je:",
             answers: [
-                "=== krivi odgovor",
-                "=== krivi odgovor",
-                "=*= točan odgovor"
+                "=== Eve",
+                "=== Annabelle",
+                "=*= Altaira"
             ]
         }
     ]

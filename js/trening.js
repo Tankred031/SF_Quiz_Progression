@@ -341,6 +341,37 @@ function initImageZoom() {
 QUIZ RENDER
 ========================================= */
 
+function renderQuizReward(month, week) {
+    const frontImage = `assets/images/rewards/reward-${month}-${week}.png`;
+    const backImage = "assets/images/rewards/back.png";
+    const placeholderImage = "assets/images/rewards/placeholder.png";
+
+    return `
+        <div
+            class="quiz-reward-card locked"
+            data-reward-month="${month}"
+            data-reward-week="${week}"
+        >
+            <div class="reward-inner">
+
+                <div class="reward-face reward-back">
+                    <img src="${backImage}" alt="Zaključana nagrada">
+                </div>
+
+                <div class="reward-face reward-front">
+                    <img
+                        src="${frontImage}"
+                        alt="Otključana nagrada"
+                        onerror="this.onerror=null; this.src='${placeholderImage}';"
+                    >
+                </div>
+
+            </div>
+        </div>
+    `;
+}
+
+
 function renderQuizWeek(month, monthIndex, week) {
     const status = getWeekStatus(
         month.month,
@@ -374,7 +405,7 @@ function renderQuizWeek(month, monthIndex, week) {
         || getQuizQuestionCount(difficulty);
 
     if (status === "locked") {
-    return `
+        return `
         <div class="
             week-block
             ${getWeekStateClass(status)}
@@ -400,14 +431,14 @@ function renderQuizWeek(month, monthIndex, week) {
 
         </div>
     `;
-}
+    }
 
-const quizQuestions =
-    getRandomQuestions(
-        difficulty,
-        questionCount,
-        group
-    )
+    const quizQuestions =
+        getRandomQuestions(
+            difficulty,
+            questionCount,
+            group
+        )
 
 
     return `
@@ -464,6 +495,7 @@ const quizQuestions =
 
             </div>
 
+            ${renderQuizReward(month.month, week)}
             ${renderWeekReport(month, week)}
 
         </div>
@@ -693,6 +725,10 @@ document.addEventListener("click", function (e) {
             );
         }
     });
+
+    const weekBlock = e.target.closest(".week-block");
+    checkQuizReward(weekBlock);
+
 });
 
 /* =========================================
@@ -763,10 +799,12 @@ window.addEventListener("load", () => {
                 );
 
                 renderApp();
+                restoreQuizRewards();
             }
         );
     }
 
     renderApp();
     initImageZoom();
+    restoreQuizRewards();
 });
