@@ -562,11 +562,11 @@ const questions = {
         },
         {
             group: "machines",
-            question: "***",
+            question: "Terminator dolazi u prošlost na...",
             answers: [
-                "=== krivi odgovor",
-                "=== krivi odgovor",
-                "=*= točan odgovor"
+                "=== ..6. svibnja, utorak",
+                "=== ..8. svibnja, srijeda",
+                "=*= ..12. svibnja, četvrtak"
             ]
         },
         {
@@ -587,10 +587,10 @@ const questions = {
 ========================================= */
 
 const yesNoQuestions = {
-    light: [
+    hardcore: [
         {
             group: "machines",
-            question: "Je li RoboCop istovremeno čovjek i stroj?",
+            question: "Kad Sarah Connor uđe u Tech-noir, svira 'Burning in the third degree'?",
             answers: [
                 "=*= Da",
                 "=== Ne"
@@ -611,10 +611,7 @@ const yesNoQuestions = {
                 "=== Da",
                 "=*= Ne"
             ]
-        }
-    ],
-
-    medium: [
+        },    
         {
             group: "machines",
             question: "Jesu li HAL 9000 i Skynet isti tip umjetne inteligencije?",
@@ -638,10 +635,7 @@ const yesNoQuestions = {
                 "=== Da",
                 "=*= Ne"
             ]
-        }
-    ],
-
-    hard: [
+        },    
         {
             group: "machines",
             question: "Prikazuje li Videodrome tehnologiju i medij kao silu koja mijenja ljudsku stvarnost?",
