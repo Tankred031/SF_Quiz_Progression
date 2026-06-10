@@ -387,6 +387,15 @@ const questions = {
             ]
         },
         {
+            group: "dystopia",
+            question: "U filmu H. G. Wells' The Shape of Things to Come, koji planet Omus preuzima kako bi ucjenjivao druge kolonije?",
+            answers: [
+                "=*= Delta 3",
+                "=== Mongo",
+                "=== Altair IV"
+            ]
+        },
+        {
             group: "machines",
             question: "Kuhar iz 'Forbidden Planet' je od Robbyja tražio što?",
             answers: [
@@ -611,7 +620,7 @@ const yesNoQuestions = {
                 "=== Da",
                 "=*= Ne"
             ]
-        },    
+        },
         {
             group: "machines",
             question: "Jesu li HAL 9000 i Skynet isti tip umjetne inteligencije?",
@@ -635,7 +644,7 @@ const yesNoQuestions = {
                 "=== Da",
                 "=*= Ne"
             ]
-        },    
+        },
         {
             group: "machines",
             question: "Prikazuje li Videodrome tehnologiju i medij kao silu koja mijenja ljudsku stvarnost?",
