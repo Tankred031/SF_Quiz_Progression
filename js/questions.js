@@ -106,11 +106,11 @@ const questions = {
         },
         {
             group: "aliens",
-            question: "Osim ***",
+            question: "Tko glumi Supermana u istoimenom filmu iz 1978?",
             answers: [
-                "=*= točan odgovor",
-                "=== krivi odgovor",
-                "=== krivi odgovor"
+                "=*= Christopher Reeve",
+                "=== Jeff Goldbloom",
+                "=== Mel Gibson"
             ]
         },
         {
@@ -262,11 +262,11 @@ const questions = {
         },
         {
             group: "aliens",
-            question: "U kojem filmu ***",
+            question: "Supermanov dom udaljen od civilizacije zove se:",
             answers: [
-                "=== krivi odgovor",
-                "=*= točan odgovor",
-                "=== krivi odgovor"
+                "=== Dvorac Siva lubanja",
+                "=*= Tvrđava samoće",
+                "=== Planet Krypton"
             ]
         },
         {
