@@ -1050,9 +1050,9 @@ const questions = {
             group: "dystopia",
             question: "U 'Westworldu' možete odabrati vaš odmor između:",
             answers: [
-                "=*= Westworld, Medieval World, Roman World",
-                "=== krivi odgovor",
-                "=== krivi odgovor"
+                "=*= Roman Wolrd, Medieval World, Westworld",
+                "=== Roman World, Medieval World, Spa World",
+                "=== Roman Wolrd, Westworld, Futureworld"
             ]
         },
         {
@@ -1073,11 +1073,11 @@ const questions = {
         },
         {
             group: "dystopia",
-            question: "***",
+            question: "Tema filma 'Futureworld' je...",
             answers: [
-                "=*= točan odgovor",
-                "=== krivi odgovor",
-                "=== krivi odgovor"
+                "=*= urota korporacije zamjenjivanjem ljudi, androidima",
+                "=== kvar u sustav i time pobuna androida",
+                "=== povezivanje androida u kolektivnu svijest"
             ]
         },
         {
