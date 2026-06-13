@@ -124,11 +124,11 @@ const questions = {
         },
         {
             group: "dystopia",
-            question: "***",
+            question: "Tko tumači Georgea Taylora u filmu 'Planet of the Apes'?",
             answers: [
-                "=== krivi odgovor",
-                "=== krivi odgovor",
-                "=*= točan odgovor"
+                "=== Paul Newmann",
+                "=== Marlon Brandor",
+                "=*= Charlton Heston"
             ]
         },
         {
@@ -597,11 +597,11 @@ const questions = {
         },
         {
             group: "dystopia",
-            question: "***",
+            question: "Kako se zove nijema žena koju Taylor uzima za suputnicu?",
             answers: [
-                "=*= točan odgovor",
-                "=== krivi odgovor",
-                "=== krivi odgovor"
+                "=*= Nova",
+                "=== Zira",
+                "=== Lara"
             ]
         },
         {
@@ -972,11 +972,11 @@ const questions = {
         },
         {
             group: "dystopia",
-            question: "***",
+            question: "Tko dolazi u potragu za Taylorom u 'Beneath the Planet of Apes'?",
             answers: [
-                "=*= točan odgovor",
-                "=== krivi odgovor",
-                "=== krivi odgovor"
+                "=*= John Brent",
+                "=== John Landon",
+                "=== John Dodge"
             ]
         },
         {
@@ -1039,17 +1039,18 @@ const questions = {
             ]
         },{
             group: "machines",
-            question: "***",
+            question: "Tko je uništio Krellove u 'Forbidden Planet'?",
             answers: [
-                "=*= točan odgovor",
-                "=== krivi odgovor",
-                "=== krivi odgovor"]
+                "=*= njihove emocije",
+                "=== meteor iz svemira",
+                "=== virus iz laboratorija"
+            ]
         },
         {
             group: "dystopia",
-            question: "***",
+            question: "U 'Westworldu' možete odabrati vaš odmor između:",
             answers: [
-                "=*= točan odgovor",
+                "=*= Westworld, Medieval World, Roman World",
                 "=== krivi odgovor",
                 "=== krivi odgovor"
             ]
