@@ -1022,11 +1022,11 @@ const questions = {
         },
         {
             group: "dystopia",
-            question: "***",
+            question: "Ti tražiš da ti pomognem? Čovjek je zao! Sposoban ni za što drugo osim za uništavanje! - kaže tko?",
             answers: [
-                "=*= točan odgovor",
-                "=== krivi odgovor",
-                "=== krivi odgovor"
+                "=*= dr. Zaius",
+                "=== dr. Cornelius",
+                "=== dr. Honorius"
             ]
         },
         {
