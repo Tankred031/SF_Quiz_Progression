@@ -553,11 +553,11 @@ const questions = {
         },
         {
             group: "dystopia",
-            question: "***",
+            question: "Tko glumi Alexa u 'A Clockwork Orange'?",
             answers: [
-                "=*= točan odgovor",
-                "=== krivi odgovor",
-                "=== krivi odgovor"
+                "=*= Malcolm McDowell",
+                "=== Donald Sutherland",
+                "=== Donald Pleasance"
             ]
         },
         {
@@ -606,11 +606,11 @@ const questions = {
         },
         {
             group: "aliens",
-            question: "***",
+            question: "Glavnog junaka Alexa u filmu 'The Last Starfighter' glumi?",
             answers: [
-                "=*= točan odgovor",
-                "=== krivi odgovor",
-                "=== krivi odgovor"
+                "=*= Lance Guest",
+                "=== LIam Neeson",
+                "=== Nigel Terry"
             ]
         },{
             group: "machines",
@@ -1123,11 +1123,11 @@ const questions = {
         },
         {
             group: "dystopia",
-            question: "***",
+            question: "Uvod filma 'Fahrenheit 451' počinje sa: ",
             answers: [
-                "=*= točan odgovor",
-                "=== krivi odgovor",
-                "=== krivi odgovor"
+                "=*= imenima glumaca koja se izgovaraju na početku filma",
+                "=== imenima glumaca u obliku novina koje odmah izgore",
+                "=== uvodna špica ne postoji, već je prebačena na kraj filma"
             ]
         },
         {
@@ -1305,7 +1305,7 @@ const yesNoQuestions = {
         },
         {
             group: "dystopia",
-            question: "Je li They Live dobar primjer filma o skrivenoj društvenoj kontroli?",
+            question: "Glavni lik u filmu 'Fahrenheit 451' zove se Guy Montag?",
             answers: [
                 "=*= Da",
                 "=== Ne"
