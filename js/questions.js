@@ -307,11 +307,11 @@ const questions = {
         },
         {
             group: "dystopia",
-            question: "***",
+            question: "Evil-Lyn u 'Master of the Universe' glumi:",
             answers: [
-                "=== krivi odgovor",
-                "=== krivi odgovor",
-                "=*= točan odgovor"
+                "=== Bridget Fonda",
+                "=== Courtney Cox",
+                "=*= Meg Foster"
             ]
         },
         {
@@ -1281,7 +1281,7 @@ const yesNoQuestions = {
         },
         {
             group: "dystopia",
-            question: "Je li They Live dobar primjer filma o skrivenoj društvenoj kontroli?",
+            question: "Meg Foster osim po ulozi u 'They Live' glumi i u 'Masters of the Universe'?",
             answers: [
                 "=*= Da",
                 "=== Ne"
@@ -1329,7 +1329,7 @@ const yesNoQuestions = {
         },
         {
             group: "dystopia",
-            question: "Je li They Live dobar primjer filma o skrivenoj društvenoj kontroli?",
+            question: "James Tolkan poznat po ulozi Striklanda u 'Back to the Future' glumi i u 'Masters of the Universe",
             answers: [
                 "=*= Da",
                 "=== Ne"
