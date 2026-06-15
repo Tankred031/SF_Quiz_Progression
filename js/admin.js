@@ -1,69 +1,84 @@
 /* =========================================
-   SF QUIZ — ADMIN SYSTEM
-
-   Admin može:
-   - vidjeti admin kontrole
-   - otključati Secret Level
-   - zaključati Secret Level
-
-   Stari month/week admin sustav je uklonjen.
+   SF QUIZ PROGRESSION — ADMIN
 ========================================= */
 
-/* =========================================
-   SECRET LEVEL STORAGE
-========================================= */
-
-const SECRET_LEVEL_UNLOCK_KEY =
+const SECRET_LEVEL_UNLOCKED_KEY =
     "sfq-secret-level-unlocked";
 
 /* =========================================
-   SECRET LEVEL STATUS
+   SECRET ACCESS
 ========================================= */
 
 function isSecretLevelUnlocked() {
     return (
         localStorage.getItem(
-            SECRET_LEVEL_UNLOCK_KEY
+            SECRET_LEVEL_UNLOCKED_KEY
         ) === "true"
     );
 }
 
-/*
-   Administrator uvijek može otvoriti
-   Secret Level, čak i kada je zaključan
-   za običnog korisnika.
-*/
-
 function canOpenSecretLevel() {
-    return (
-        isSecretLevelUnlocked() ||
-        (
-            typeof isTrainer === "function" &&
-            isTrainer()
-        )
-    );
+    /*
+       Admin uvijek može otvoriti Secret.
+    */
+
+    if (
+        typeof isTrainer === "function" &&
+        isTrainer()
+    ) {
+        return true;
+    }
+
+    /*
+       User može samo kada je admin
+       otključao Secret.
+    */
+
+    return isSecretLevelUnlocked();
 }
 
 /* =========================================
-   SECRET LEVEL ACCESS
+   SET ACCESS
 ========================================= */
 
 function setSecretLevelAccess(unlocked) {
     localStorage.setItem(
-        "sfq-secret-level-unlocked",
+        SECRET_LEVEL_UNLOCKED_KEY,
         unlocked ? "true" : "false"
     );
 
     /*
-       Novo adminovo otključavanje znači
-       i potpuno novi hardcore pokušaj.
+       Novo otključavanje daje potpuno
+       novi hardcore pokušaj.
     */
 
     if (
         unlocked &&
-        typeof resetSecretFailed === "function"
+        typeof resetSecretFailed ===
+            "function"
     ) {
         resetSecretFailed(false);
+    }
+
+    /*
+       Ako je Secret zaključan dok je
+       obični korisnik na Levelu 4,
+       vrati ga na Level 1.
+    */
+
+    if (
+        !unlocked &&
+        typeof isUser === "function" &&
+        isUser() &&
+        typeof activeLevel !== "undefined" &&
+        activeLevel === 4
+    ) {
+        activeLevel = 1;
+
+        localStorage.setItem(
+            "sfq-active-level",
+            "1"
+        );
     }
 
     if (
@@ -71,10 +86,29 @@ function setSecretLevelAccess(unlocked) {
     ) {
         renderApp();
     }
+
+    if (
+        typeof applyRoleUI === "function"
+    ) {
+        applyRoleUI();
+    }
 }
 
 /* =========================================
-   ADMIN CONTROL RENDER
+   TOGGLE ACCESS
+========================================= */
+
+function toggleSecretLevelAccess() {
+    const currentlyUnlocked =
+        isSecretLevelUnlocked();
+
+    setSecretLevelAccess(
+        !currentlyUnlocked
+    );
+}
+
+/* =========================================
+   ADMIN BUTTON
 ========================================= */
 
 function renderSecretAdminControl() {
@@ -85,58 +119,26 @@ function renderSecretAdminControl() {
         return "";
     }
 
-    const secretUnlocked =
+    const unlocked =
         isSecretLevelUnlocked();
 
     return `
-        <div class="secret-admin-control">
-
-            <div class="secret-admin-info">
-
-                <span class="secret-admin-label">
-                    Secret Level
-                </span>
-
-                <span
-                    class="
-                        secret-admin-status
-                        ${
-                            secretUnlocked
-                                ? "secret-status-unlocked"
-                                : "secret-status-locked"
-                        }
-                    "
-                >
-                    ${
-                        secretUnlocked
-                            ? "🟢 Otključan za korisnika"
-                            : "🔴 Zaključan za korisnika"
-                    }
-                </span>
-
-            </div>
-
-            <button
-                type="button"
-                id="toggleSecretLevelButton"
-
-                class="
-                    secret-admin-button
-                    ${
-                        secretUnlocked
-                            ? "secret-lock-button"
-                            : "secret-unlock-button"
-                    }
-                "
-            >
-                ${
-                    secretUnlocked
-                        ? "Zaključaj Secret"
-                        : "Otključaj Secret"
+        <button
+            type="button"
+            id="secretAdminToggleBtn"
+            class="
+                secret-admin-toggle
+                ${unlocked
+                    ? "secret-is-unlocked"
+                    : "secret-is-locked"
                 }
-            </button>
-
-        </div>
+            "
+        >
+            ${unlocked
+                ? "Zaključaj Secret"
+                : "Otključaj Secret"
+            }
+        </button>
     `;
 }
 
@@ -145,52 +147,35 @@ function renderSecretAdminControl() {
 ========================================= */
 
 function applyRoleUI() {
-    const trainer =
+    const body =
+        document.body;
+
+    if (!body) {
+        return;
+    }
+
+    body.classList.remove(
+        "role-trainer",
+        "role-user"
+    );
+
+    if (
         typeof isTrainer === "function" &&
-        isTrainer();
-
-    const adminElements =
-        document.querySelectorAll(
-            ".admin-only"
+        isTrainer()
+    ) {
+        body.classList.add(
+            "role-trainer"
         );
 
-    adminElements.forEach(element => {
-        element.style.display =
-            trainer
-                ? ""
-                : "none";
-    });
+        return;
+    }
 
-    const adminBadge =
-        document.getElementById(
-            "adminBadge"
+    if (
+        typeof isUser === "function" &&
+        isUser()
+    ) {
+        body.classList.add(
+            "role-user"
         );
-
-    if (adminBadge) {
-        adminBadge.style.display =
-            trainer
-                ? "inline-flex"
-                : "none";
     }
 }
-
-/* =========================================
-   ADMIN CLICK EVENT
-========================================= */
-
-document.addEventListener(
-    "click",
-    event => {
-        const toggleButton =
-            event.target.closest(
-                "#toggleSecretLevelButton"
-            );
-
-        if (!toggleButton) {
-            return;
-        }
-
-        toggleSecretLevelAccess();
-    }
-);
-

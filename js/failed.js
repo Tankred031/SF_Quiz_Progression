@@ -18,10 +18,30 @@ const SECRET_FAILED_KEY =
 const SECRET_FAILED_IMAGE_KEY =
     "sfq-secret-failed-image";
 
-const SECRET_FAILED_IMAGES = [
-    "assets/images/copyright-risk/ThereCanBeOnly1.png",
-    "assets/images/copyright-risk/YouKnowNothing.png",
-    "assets/images/copyright-risk/CaseClosed.png"
+const SECRET_FAILED_OPTIONS = [
+    {
+        image:
+            "assets/images/copyright-risk/ThereCanBeOnly1.png",
+
+        text:
+            "THERE CAN BE ONLY ONE!"
+    },
+
+    {
+        image:
+            "assets/images/copyright-risk/YouKnowNothing.png",
+
+        text:
+            "YOU KNOW NOTHING. QUIZ IS ONLY A WORD. REALITY IS MUCH, MUCH WORSE!"
+    },
+
+    {
+        image:
+            "assets/images/copyright-risk/CaseClosed.png",
+
+        text:
+            "CASE CLOSED!"
+    }
 ];
 
 /* =========================================
@@ -36,19 +56,84 @@ function isSecretFailed() {
     );
 }
 
+/* =========================================
+   RANDOM FAILED OPTION
+========================================= */
+
+function getRandomSecretFailedOption() {
+    const randomIndex =
+        Math.floor(
+            Math.random() *
+            SECRET_FAILED_OPTIONS.length
+        );
+
+    return SECRET_FAILED_OPTIONS[
+        randomIndex
+    ];
+}
+
+function getSecretFailedOption() {
+    const savedImage =
+        localStorage.getItem(
+            SECRET_FAILED_IMAGE_KEY
+        );
+
+    if (savedImage) {
+        const savedOption =
+            SECRET_FAILED_OPTIONS.find(
+                option =>
+                    option.image === savedImage
+            );
+
+        if (savedOption) {
+            return savedOption;
+        }
+    }
+
+    const randomOption =
+        getRandomSecretFailedOption();
+
+    localStorage.setItem(
+        SECRET_FAILED_IMAGE_KEY,
+        randomOption.image
+    );
+
+    return randomOption;
+}
+
+/* =========================================
+   SET FAILED STATE
+========================================= */
+
 function setSecretFailed() {
     localStorage.setItem(
         SECRET_FAILED_KEY,
         "true"
     );
+
+    /*
+       Slika i pripadajući tekst biraju se
+       samo jednom za trenutačni pokušaj.
+    */
+
+    if (
+        !localStorage.getItem(
+            SECRET_FAILED_IMAGE_KEY
+        )
+    ) {
+        const randomOption =
+            getRandomSecretFailedOption();
+
+        localStorage.setItem(
+            SECRET_FAILED_IMAGE_KEY,
+            randomOption.image
+        );
+    }
 }
 
-/*
-   Ovu funkciju možemo kasnije spojiti
-   na admin gumb za reset Secret pokušaja.
-
-   Običan korisnik ne dobiva taj gumb.
-*/
+/* =========================================
+   RESET FAILED STATE
+========================================= */
 
 function resetSecretFailed(
     shouldRender = true
@@ -94,48 +179,51 @@ function renderSecretFailed() {
         return "";
     }
 
-    return `
-        <section
-            class="
-                secret-failed-screen
-                year-4
-            "
-        >
+    const failedOption =
+        getSecretFailedOption();
 
-            <div class="secret-failed-content">
+    return `
+        <div
+            class="secret-failed-overlay"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="secretFailedTitle"
+        >
+            <div class="secret-failed-prompt">
 
                 <p class="secret-failed-kicker">
                     ACCESS TERMINATED
                 </p>
 
-                <h2 class="secret-failed-title">
+                <h2
+                    id="secretFailedTitle"
+                    class="secret-failed-title"
+                >
                     SECRET ARCHIVE FAILED
                 </h2>
 
-                <p class="secret-failed-text">
-                    Pogrešan odgovor zabilježen.
-                </p>
-
-                <p class="secret-failed-warning">
-                    Hardcore Archive dopušta
-                    samo jedan pokušaj.
-                </p>
-
                 <img
-                    src="${SECRET_FAILED_IMAGE}"
+                    src="${failedOption.image}"
                     alt="Secret Level nije uspješno završen"
-                    class="
-                        secret-failed-image
-                        zoomable-image
-                    "
+                    class="secret-failed-image"
                 >
 
+                <p class="secret-failed-message">
+                    ${failedOption.text}
+                </p>
+
                 <div class="secret-failed-lock">
-                    🔒 PRISTUP ARHIVI TRAJNO ZAKLJUČAN
+                    🔒 PRISTUP ARHIVI ZAKLJUČAN
                 </div>
 
-            </div>
+                <button
+    type="button"
+    class="secret-failed-back-btn"
+>
+    ← Povratak na levele
+</button>
 
-        </section>
+            </div>
+        </div>
     `;
 }

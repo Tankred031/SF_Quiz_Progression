@@ -289,16 +289,67 @@ function renderLevelSelect() {
         return;
     }
 
-    const secretStatus =
+    let secretDisabled = false;
+
+    if (
         typeof getSecretLevelUserStatus ===
         "function"
-            ? getSecretLevelUserStatus()
-            : {
-                unlocked: true,
-                disabled: false,
-                label:
-                    LEVEL_CONFIGS[4].label
-            };
+    ) {
+        const secretStatus =
+            getSecretLevelUserStatus();
+
+        /*
+           Podržava različite nazive
+           vrijednosti iz user.js.
+        */
+
+        secretDisabled =
+            secretStatus?.disabled === true ||
+            secretStatus?.unlocked === false ||
+            secretStatus?.canOpen === false;
+    } else if (
+        typeof canUserOpenLevel ===
+        "function"
+    ) {
+        secretDisabled =
+            !canUserOpenLevel(4);
+    }
+
+    const levelOptions =
+        Object.values(
+            LEVEL_CONFIGS
+        )
+            .map(level => {
+                const isSecret =
+                    level.id === 4;
+
+                const optionLabel =
+                    isSecret &&
+                        secretDisabled
+                        ? `${level.label} 🔒`
+                        : level.label;
+
+                return `
+                    <option
+                        value="${level.id}"
+
+                        ${level.id ===
+                        activeLevel
+                        ? "selected"
+                        : ""
+                    }
+
+                        ${isSecret &&
+                        secretDisabled
+                        ? "disabled"
+                        : ""
+                    }
+                    >
+                        ${optionLabel}
+                    </option>
+                `;
+            })
+            .join("");
 
     userYearDisplay.innerHTML = `
         <div class="hero-level-selector">
@@ -308,48 +359,14 @@ function renderLevelSelect() {
             </label>
 
             <select id="levelSelect">
-
-                ${Object.values(
-                    LEVEL_CONFIGS
-                ).map(level => {
-                    const isSecret =
-                        level.id === 4;
-
-                    const label =
-                        isSecret
-                            ? secretStatus.label
-                            : level.label;
-
-                    const disabled =
-                        isSecret &&
-                        secretStatus.disabled
-                            ? "disabled"
-                            : "";
-
-                    return `
-                        <option
-                            value="${level.id}"
-                            ${
-                                level.id ===
-                                activeLevel
-                                    ? "selected"
-                                    : ""
-                            }
-                            ${disabled}
-                        >
-                            ${label}
-                        </option>
-                    `;
-                }).join("")}
-
+                ${levelOptions}
             </select>
 
-            ${
-                typeof renderSecretAdminControl ===
-                "function"
-                    ? renderSecretAdminControl()
-                    : ""
-            }
+            ${typeof renderSecretAdminControl ===
+            "function"
+            ? renderSecretAdminControl()
+            : ""
+        }
 
         </div>
     `;
@@ -405,7 +422,7 @@ function changeActiveLevel(newLevel) {
 
     if (
         typeof canUserOpenLevel ===
-            "function" &&
+        "function" &&
         !canUserOpenLevel(parsedLevel)
     ) {
         activeLevel = 1;
@@ -683,9 +700,9 @@ function shuffleArray(array) {
             shuffled[index],
             shuffled[randomIndex]
         ] = [
-            shuffled[randomIndex],
-            shuffled[index]
-        ];
+                shuffled[randomIndex],
+                shuffled[index]
+            ];
     }
 
     return shuffled;
@@ -791,7 +808,7 @@ function getRewardData(
 
     const week =
         DIFFICULTY_INDEX[
-            difficulty
+        difficulty
         ];
 
     if (!month || !week) {
@@ -813,7 +830,7 @@ function getRewardThreshold(
 
     return (
         levelConfig.rewardScores[
-            difficulty
+        difficulty
         ] || 0
     );
 }
@@ -955,12 +972,12 @@ function renderFocusList(groupData) {
     return `
         <ul>
             ${groupData.focus
-                .map(item => `
+            .map(item => `
                     <li>
                         ${item}
                     </li>
                 `)
-                .join("")}
+            .join("")}
         </ul>
     `;
 }
@@ -991,15 +1008,14 @@ function renderQuizMeta(
             Pitanja:
             ${total}
 
-            ${
-                nextDifficulty
-                    ? `
+            ${nextDifficulty
+            ? `
                         |
                         Za ${nextDifficulty.label}:
                         ${nextDifficulty.required}/${total}
                     `
-                    : ""
-            }
+            : ""
+        }
 
             |
 
@@ -1102,30 +1118,29 @@ function renderCompletedQuiz(
             </div>
 
             ${renderQuizMeta(
-                difficulty,
-                group,
-                questions.length
-            )}
+        difficulty,
+        group,
+        questions.length
+    )}
 
             ${getResultMessage(
-                difficulty,
-                score,
-                questions.length
-            )}
+        difficulty,
+        score,
+        questions.length
+    )}
 
-            ${
-                rewardData &&
-                typeof renderQuizReward ===
-                "function"
+            ${rewardData &&
+            typeof renderQuizReward ===
+            "function"
 
-                    ? renderQuizReward(
-                        rewardData.year,
-                        rewardData.month,
-                        rewardData.week
-                    )
+            ? renderQuizReward(
+                rewardData.year,
+                rewardData.month,
+                rewardData.week
+            )
 
-                    : ""
-            }
+            : ""
+        }
 
             <button
                 type="button"
@@ -1156,15 +1171,14 @@ function renderQuestionCard(
                 ${questionIndex + 1}
             </div>
 
-            ${
-                question.film
-                    ? `
+            ${question.film
+            ? `
                         <div class="quiz-film">
                             ${question.film}
                         </div>
                     `
-                    : ""
-            }
+            : ""
+        }
 
             <p class="quiz-question">
                 ${question.question}
@@ -1173,7 +1187,7 @@ function renderQuestionCard(
             <div class="quiz-answers">
 
                 ${question.answers
-                    .map(answer => `
+            .map(answer => `
                         <button
                             type="button"
                             class="quiz-answer-btn"
@@ -1182,7 +1196,7 @@ function renderQuestionCard(
                             ${answer.text}
                         </button>
                     `)
-                    .join("")}
+            .join("")}
 
             </div>
 
@@ -1226,43 +1240,41 @@ function renderActiveQuiz(
             </div>
 
             ${renderQuizMeta(
-                difficulty,
-                group,
-                questions.length
-            )}
+        difficulty,
+        group,
+        questions.length
+    )}
 
             <div class="quiz-list">
 
-                ${
-                    questions.length > 0
-                        ? questions
-                            .map(
-                                renderQuestionCard
-                            )
-                            .join("")
+                ${questions.length > 0
+            ? questions
+                .map(
+                    renderQuestionCard
+                )
+                .join("")
 
-                        : `
+            : `
                             <div class="empty-quiz-message">
                                 Za ovu kategoriju nema pitanja.
                             </div>
                         `
-                }
+        }
 
             </div>
 
-            ${
-                rewardData &&
-                typeof renderQuizReward ===
-                "function"
+            ${rewardData &&
+            typeof renderQuizReward ===
+            "function"
 
-                    ? renderQuizReward(
-                        rewardData.year,
-                        rewardData.month,
-                        rewardData.week
-                    )
+            ? renderQuizReward(
+                rewardData.year,
+                rewardData.month,
+                rewardData.week
+            )
 
-                    : ""
-            }
+            : ""
+        }
 
             <div class="quiz-live-result"></div>
 
@@ -1340,22 +1352,22 @@ function renderGroupBlock(
                 </strong>
 
                 ${renderFocusList(
-                    groupData
-                )}
+        groupData
+    )}
 
             </div>
 
             <div class="levels-grid">
 
                 ${QUIZ_DIFFICULTIES
-                    .map(
-                        difficultyConfig =>
-                            renderQuizBlock(
-                                difficultyConfig,
-                                groupData
-                            )
+            .map(
+                difficultyConfig =>
+                    renderQuizBlock(
+                        difficultyConfig,
+                        groupData
                     )
-                    .join("")}
+            )
+            .join("")}
 
             </div>
 
@@ -1448,22 +1460,20 @@ function renderSecretQuiz(
         <div
             class="
                 week-block
-                ${
-                    completed
-                        ? "week-completed"
-                        : "week-active"
-                }
+                ${completed
+            ? "week-completed"
+            : "week-active"
+        }
                 quiz-section
             "
             data-secret-type="${questionType}"
         >
 
             <div class="week-title">
-                ${
-                    completed
-                        ? "🟢"
-                        : "🟡"
-                }
+                ${completed
+            ? "🟢"
+            : "🟡"
+        }
 
                 ${title}
             </div>
@@ -1475,9 +1485,8 @@ function renderSecretQuiz(
                 Secret Archive
             </div>
 
-            ${
-                completed
-                    ? `
+            ${completed
+            ? `
                         <div class="quiz-result success">
                             Rezultat:
                             ${savedScore}
@@ -1486,20 +1495,20 @@ function renderSecretQuiz(
                         </div>
                     `
 
-                    : `
+            : `
                         <div class="quiz-list">
 
                             ${questions
-                                .map(
-                                    renderQuestionCard
-                                )
-                                .join("")}
+                .map(
+                    renderQuestionCard
+                )
+                .join("")}
 
                         </div>
 
                         <div class="quiz-live-result"></div>
                     `
-            }
+        }
 
         </div>
     `;
@@ -1539,14 +1548,14 @@ function renderSecretLevel() {
             <div class="levels-grid">
 
                 ${renderSecretQuiz(
-                    "multipleChoice",
-                    "Hardcore Multiple Choice"
-                )}
+        "multipleChoice",
+        "Hardcore Multiple Choice"
+    )}
 
                 ${renderSecretQuiz(
-                    "yesNo",
-                    "Hardcore Da ili Ne"
-                )}
+        "yesNo",
+        "Hardcore Da ili Ne"
+    )}
 
             </div>
 
@@ -1577,7 +1586,7 @@ function renderApp() {
     if (
         activeLevel === 4 &&
         typeof canUserOpenLevel ===
-            "function" &&
+        "function" &&
         !canUserOpenLevel(4)
     ) {
         activeLevel = 1;
@@ -1605,8 +1614,8 @@ function renderApp() {
             app.innerHTML =
                 typeof renderSecretFailed ===
                     "function"
-                        ? renderSecretFailed()
-                        : `
+                    ? renderSecretFailed()
+                    : `
                             <section class="secret-failed-screen">
                                 <div class="secret-failed-content">
                                     <h2>
@@ -1624,7 +1633,7 @@ function renderApp() {
                 renderSecretLevel() +
                 (
                     typeof renderSecretCompletion ===
-                    "function"
+                        "function"
                         ? renderSecretCompletion()
                         : ""
                 );
@@ -1636,7 +1645,7 @@ function renderApp() {
                 .join("") +
             (
                 typeof renderLevel3Completion ===
-                "function"
+                    "function"
                     ? renderLevel3Completion()
                     : ""
             );
@@ -1885,6 +1894,16 @@ document.addEventListener(
 document.addEventListener(
     "click",
     event => {
+
+        const secretFailedBackButton =
+            event.target.closest(
+                ".secret-failed-back-btn"
+            );
+
+        if (secretFailedBackButton) {
+            changeActiveLevel(1);
+            return;
+        }
         const secretAdminButton =
             event.target.closest(
                 "#secretAdminToggleBtn"
@@ -2115,9 +2134,9 @@ function initImageZoom() {
         event => {
             if (
                 event.target ===
-                    imageOverlay ||
+                imageOverlay ||
                 event.target ===
-                    overlayImage
+                overlayImage
             ) {
                 closeImage();
             }
