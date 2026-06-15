@@ -1,16 +1,5 @@
 /* =========================================
    SF QUIZ PROGRESSION — MAIN APP
-
-   STRUKTURA:
-   - Level 1: light / medium / hard
-   - Level 2: light / medium / hard
-   - Level 3: light / medium / hard
-   - Level 4: Secret Archive
-
-   TEME:
-   - machines
-   - dystopia
-   - aliens
 ========================================= */
 
 /* =========================================
@@ -300,6 +289,17 @@ function renderLevelSelect() {
         return;
     }
 
+    const secretStatus =
+        typeof getSecretLevelUserStatus ===
+        "function"
+            ? getSecretLevelUserStatus()
+            : {
+                unlocked: true,
+                disabled: false,
+                label:
+                    LEVEL_CONFIGS[4].label
+            };
+
     userYearDisplay.innerHTML = `
         <div class="hero-level-selector">
 
@@ -310,20 +310,46 @@ function renderLevelSelect() {
             <select id="levelSelect">
 
                 ${Object.values(
-        LEVEL_CONFIGS
-    ).map(level => `
-                    <option
-                        value="${level.id}"
-                        ${level.id === activeLevel
-            ? "selected"
-            : ""
-        }
-                    >
-                        ${level.label}
-                    </option>
-                `).join("")}
+                    LEVEL_CONFIGS
+                ).map(level => {
+                    const isSecret =
+                        level.id === 4;
+
+                    const label =
+                        isSecret
+                            ? secretStatus.label
+                            : level.label;
+
+                    const disabled =
+                        isSecret &&
+                        secretStatus.disabled
+                            ? "disabled"
+                            : "";
+
+                    return `
+                        <option
+                            value="${level.id}"
+                            ${
+                                level.id ===
+                                activeLevel
+                                    ? "selected"
+                                    : ""
+                            }
+                            ${disabled}
+                        >
+                            ${label}
+                        </option>
+                    `;
+                }).join("")}
 
             </select>
+
+            ${
+                typeof renderSecretAdminControl ===
+                "function"
+                    ? renderSecretAdminControl()
+                    : ""
+            }
 
         </div>
     `;
@@ -374,6 +400,23 @@ function changeActiveLevel(newLevel) {
         Number(newLevel);
 
     if (!LEVEL_CONFIGS[parsedLevel]) {
+        return;
+    }
+
+    if (
+        typeof canUserOpenLevel ===
+            "function" &&
+        !canUserOpenLevel(parsedLevel)
+    ) {
+        activeLevel = 1;
+
+        localStorage.setItem(
+            LEVEL_STORAGE_KEY,
+            "1"
+        );
+
+        renderApp();
+
         return;
     }
 
@@ -526,10 +569,6 @@ function saveQuizResult(
         "true"
     );
 
-    /*
-       LIGHT → MEDIUM
-    */
-
     if (
         difficulty === "light" &&
         score >=
@@ -540,10 +579,6 @@ function saveQuizResult(
             group
         );
     }
-
-    /*
-       MEDIUM → HARD
-    */
 
     if (
         difficulty === "medium" &&
@@ -575,11 +610,6 @@ function resetQuiz(
         )
     );
 
-    /*
-       Ako se ponavlja Light,
-       zaključavaju se Medium i Hard.
-    */
-
     if (difficulty === "light") {
         localStorage.removeItem(
             getQuizUnlockedKey(
@@ -595,11 +625,6 @@ function resetQuiz(
             )
         );
     }
-
-    /*
-       Ako se ponavlja Medium,
-       ponovno se zaključava Hard.
-    */
 
     if (difficulty === "medium") {
         localStorage.removeItem(
@@ -658,9 +683,9 @@ function shuffleArray(array) {
             shuffled[index],
             shuffled[randomIndex]
         ] = [
-                shuffled[randomIndex],
-                shuffled[index]
-            ];
+            shuffled[randomIndex],
+            shuffled[index]
+        ];
     }
 
     return shuffled;
@@ -729,10 +754,6 @@ function getQuizQuestions(
         database[difficulty];
 
     if (!difficultyDatabase) {
-        console.error(
-            `[SF Quiz] Nedostaje questions${activeLevel}.${difficulty}`
-        );
-
         return [];
     }
 
@@ -761,23 +782,6 @@ function getQuizQuestions(
    REWARD MAPPING
 ========================================= */
 
-/*
-   Format nagradnih slika:
-
-   reward-LEVEL-TEMA-TEŽINA.png
-
-   Primjeri:
-
-   reward-1-1-1.png
-   Level 1 / Machines / Light
-
-   reward-1-1-2.png
-   Level 1 / Machines / Medium
-
-   reward-2-3-3.png
-   Level 2 / Aliens / Hard
-*/
-
 function getRewardData(
     difficulty,
     group
@@ -787,7 +791,7 @@ function getRewardData(
 
     const week =
         DIFFICULTY_INDEX[
-        difficulty
+            difficulty
         ];
 
     if (!month || !week) {
@@ -809,7 +813,7 @@ function getRewardThreshold(
 
     return (
         levelConfig.rewardScores[
-        difficulty
+            difficulty
         ] || 0
     );
 }
@@ -882,7 +886,6 @@ function getResultMessage(
                 🏆 Rezultat:
                 ${score} / ${total}
                 <br>
-
                 Nagrada osvojena!
                 ${nextDifficulty.label}
                 ove teme je otključan.
@@ -896,7 +899,6 @@ function getResultMessage(
                 🏆 Rezultat:
                 ${score} / ${total}
                 <br>
-
                 Nagradna slika je osvojena!
             </div>
         `;
@@ -908,10 +910,8 @@ function getResultMessage(
                 🔓 Rezultat:
                 ${score} / ${total}
                 <br>
-
                 ${nextDifficulty.label}
                 ove teme je otključan.
-
                 Za nagradnu sliku potrebno je
                 najmanje ${rewardThreshold}
                 točnih odgovora.
@@ -925,10 +925,8 @@ function getResultMessage(
                 Rezultat:
                 ${score} / ${total}
                 <br>
-
                 ${nextDifficulty.label}
                 ostaje zaključan.
-
                 Za otključavanje je potrebno
                 najmanje
                 ${nextDifficulty.required}
@@ -942,7 +940,6 @@ function getResultMessage(
             Rezultat:
             ${score} / ${total}
             <br>
-
             Za nagradnu sliku potrebno je
             najmanje ${rewardThreshold}
             točnih odgovora.
@@ -958,12 +955,12 @@ function renderFocusList(groupData) {
     return `
         <ul>
             ${groupData.focus
-            .map(item => `
+                .map(item => `
                     <li>
                         ${item}
                     </li>
                 `)
-            .join("")}
+                .join("")}
         </ul>
     `;
 }
@@ -994,14 +991,15 @@ function renderQuizMeta(
             Pitanja:
             ${total}
 
-            ${nextDifficulty
-            ? `
+            ${
+                nextDifficulty
+                    ? `
                         |
                         Za ${nextDifficulty.label}:
                         ${nextDifficulty.required}/${total}
                     `
-            : ""
-        }
+                    : ""
+            }
 
             |
 
@@ -1052,13 +1050,9 @@ function renderLockedQuiz(
                 🔒 Za otključavanje
                 ${difficultyConfig.title}
                 kviza trebaš riješiti najmanje
-
                 ${requiredScore}
-
                 pitanja iz
-
                 ${previousDifficulty}
-
                 kviza ove teme.
             </div>
 
@@ -1096,7 +1090,6 @@ function renderCompletedQuiz(
                 week-completed
                 quiz-section
             "
-
             data-difficulty="${difficulty}"
             data-group="${group}"
         >
@@ -1109,34 +1102,34 @@ function renderCompletedQuiz(
             </div>
 
             ${renderQuizMeta(
-        difficulty,
-        group,
-        questions.length
-    )}
+                difficulty,
+                group,
+                questions.length
+            )}
 
             ${getResultMessage(
-        difficulty,
-        score,
-        questions.length
-    )}
+                difficulty,
+                score,
+                questions.length
+            )}
 
-            ${rewardData &&
-            typeof renderQuizReward ===
-            "function"
+            ${
+                rewardData &&
+                typeof renderQuizReward ===
+                "function"
 
-            ? renderQuizReward(
-                rewardData.year,
-                rewardData.month,
-                rewardData.week
-            )
+                    ? renderQuizReward(
+                        rewardData.year,
+                        rewardData.month,
+                        rewardData.week
+                    )
 
-            : ""
-        }
+                    : ""
+            }
 
             <button
                 type="button"
                 class="reset-quiz-btn"
-
                 data-difficulty="${difficulty}"
                 data-group="${group}"
             >
@@ -1163,14 +1156,15 @@ function renderQuestionCard(
                 ${questionIndex + 1}
             </div>
 
-            ${question.film
-            ? `
+            ${
+                question.film
+                    ? `
                         <div class="quiz-film">
                             ${question.film}
                         </div>
                     `
-            : ""
-        }
+                    : ""
+            }
 
             <p class="quiz-question">
                 ${question.question}
@@ -1179,7 +1173,7 @@ function renderQuestionCard(
             <div class="quiz-answers">
 
                 ${question.answers
-            .map(answer => `
+                    .map(answer => `
                         <button
                             type="button"
                             class="quiz-answer-btn"
@@ -1188,7 +1182,7 @@ function renderQuestionCard(
                             ${answer.text}
                         </button>
                     `)
-            .join("")}
+                    .join("")}
 
             </div>
 
@@ -1220,7 +1214,6 @@ function renderActiveQuiz(
                 week-active
                 quiz-section
             "
-
             data-difficulty="${difficulty}"
             data-group="${group}"
         >
@@ -1233,41 +1226,43 @@ function renderActiveQuiz(
             </div>
 
             ${renderQuizMeta(
-        difficulty,
-        group,
-        questions.length
-    )}
+                difficulty,
+                group,
+                questions.length
+            )}
 
             <div class="quiz-list">
 
-                ${questions.length > 0
-            ? questions
-                .map(
-                    renderQuestionCard
-                )
-                .join("")
+                ${
+                    questions.length > 0
+                        ? questions
+                            .map(
+                                renderQuestionCard
+                            )
+                            .join("")
 
-            : `
+                        : `
                             <div class="empty-quiz-message">
                                 Za ovu kategoriju nema pitanja.
                             </div>
                         `
-        }
+                }
 
             </div>
 
-            ${rewardData &&
-            typeof renderQuizReward ===
-            "function"
+            ${
+                rewardData &&
+                typeof renderQuizReward ===
+                "function"
 
-            ? renderQuizReward(
-                rewardData.year,
-                rewardData.month,
-                rewardData.week
-            )
+                    ? renderQuizReward(
+                        rewardData.year,
+                        rewardData.month,
+                        rewardData.week
+                    )
 
-            : ""
-        }
+                    : ""
+            }
 
             <div class="quiz-live-result"></div>
 
@@ -1345,22 +1340,22 @@ function renderGroupBlock(
                 </strong>
 
                 ${renderFocusList(
-        groupData
-    )}
+                    groupData
+                )}
 
             </div>
 
             <div class="levels-grid">
 
                 ${QUIZ_DIFFICULTIES
-            .map(
-                difficultyConfig =>
-                    renderQuizBlock(
-                        difficultyConfig,
-                        groupData
+                    .map(
+                        difficultyConfig =>
+                            renderQuizBlock(
+                                difficultyConfig,
+                                groupData
+                            )
                     )
-            )
-            .join("")}
+                    .join("")}
 
             </div>
 
@@ -1453,21 +1448,22 @@ function renderSecretQuiz(
         <div
             class="
                 week-block
-                ${completed
-            ? "week-completed"
-            : "week-active"
-        }
+                ${
+                    completed
+                        ? "week-completed"
+                        : "week-active"
+                }
                 quiz-section
             "
-
             data-secret-type="${questionType}"
         >
 
             <div class="week-title">
-                ${completed
-            ? "🟢"
-            : "🟡"
-        }
+                ${
+                    completed
+                        ? "🟢"
+                        : "🟡"
+                }
 
                 ${title}
             </div>
@@ -1479,38 +1475,31 @@ function renderSecretQuiz(
                 Secret Archive
             </div>
 
-            ${completed
-            ? `
+            ${
+                completed
+                    ? `
                         <div class="quiz-result success">
                             Rezultat:
                             ${savedScore}
                             /
                             ${questions.length}
                         </div>
-
-                        <button
-                            type="button"
-                            class="reset-secret-btn"
-                            data-secret-type="${questionType}"
-                        >
-                            Ponovi ovaj kviz
-                        </button>
                     `
 
-            : `
+                    : `
                         <div class="quiz-list">
 
                             ${questions
-                .map(
-                    renderQuestionCard
-                )
-                .join("")}
+                                .map(
+                                    renderQuestionCard
+                                )
+                                .join("")}
 
                         </div>
 
                         <div class="quiz-live-result"></div>
                     `
-        }
+            }
 
         </div>
     `;
@@ -1550,14 +1539,14 @@ function renderSecretLevel() {
             <div class="levels-grid">
 
                 ${renderSecretQuiz(
-        "multipleChoice",
-        "Hardcore Multiple Choice"
-    )}
+                    "multipleChoice",
+                    "Hardcore Multiple Choice"
+                )}
 
                 ${renderSecretQuiz(
-        "yesNo",
-        "Hardcore Da ili Ne"
-    )}
+                    "yesNo",
+                    "Hardcore Da ili Ne"
+                )}
 
             </div>
 
@@ -1569,7 +1558,36 @@ function renderSecretLevel() {
    APP RENDER
 ========================================= */
 
+function getSecretFailedState() {
+    if (
+        typeof isSecretFailed ===
+        "function"
+    ) {
+        return isSecretFailed();
+    }
+
+    return (
+        localStorage.getItem(
+            "sfq-secret-level-failed"
+        ) === "true"
+    );
+}
+
 function renderApp() {
+    if (
+        activeLevel === 4 &&
+        typeof canUserOpenLevel ===
+            "function" &&
+        !canUserOpenLevel(4)
+    ) {
+        activeLevel = 1;
+
+        localStorage.setItem(
+            LEVEL_STORAGE_KEY,
+            "1"
+        );
+    }
+
     applyLevelTheme();
     renderHeroText();
 
@@ -1583,13 +1601,45 @@ function renderApp() {
     }
 
     if (activeLevel === 4) {
-        app.innerHTML =
-            renderSecretLevel();
+        if (getSecretFailedState()) {
+            app.innerHTML =
+                typeof renderSecretFailed ===
+                    "function"
+                        ? renderSecretFailed()
+                        : `
+                            <section class="secret-failed-screen">
+                                <div class="secret-failed-content">
+                                    <h2>
+                                        SECRET ARCHIVE FAILED
+                                    </h2>
+                                    <p>
+                                        Pogrešan odgovor.
+                                        Pristup je zaključan.
+                                    </p>
+                                </div>
+                            </section>
+                        `;
+        } else {
+            app.innerHTML =
+                renderSecretLevel() +
+                (
+                    typeof renderSecretCompletion ===
+                    "function"
+                        ? renderSecretCompletion()
+                        : ""
+                );
+        }
     } else {
         app.innerHTML =
             QUIZ_GROUPS
                 .map(renderGroupBlock)
-                .join("");
+                .join("") +
+            (
+                typeof renderLevel3Completion ===
+                "function"
+                    ? renderLevel3Completion()
+                    : ""
+            );
     }
 
     setTimeout(() => {
@@ -1791,7 +1841,27 @@ function finishQuizSection(
 }
 
 /* =========================================
-   CLICK EVENTS
+   SECRET HARDCORE FAILURE
+========================================= */
+
+function activateSecretFailure() {
+    if (
+        typeof setSecretFailed ===
+        "function"
+    ) {
+        setSecretFailed();
+
+        return;
+    }
+
+    localStorage.setItem(
+        "sfq-secret-level-failed",
+        "true"
+    );
+}
+
+/* =========================================
+   CHANGE EVENT
 ========================================= */
 
 document.addEventListener(
@@ -1808,9 +1878,28 @@ document.addEventListener(
     }
 );
 
+/* =========================================
+   CLICK EVENT
+========================================= */
+
 document.addEventListener(
     "click",
     event => {
+        const secretAdminButton =
+            event.target.closest(
+                "#secretAdminToggleBtn"
+            );
+
+        if (
+            secretAdminButton &&
+            typeof toggleSecretLevelAccess ===
+            "function"
+        ) {
+            toggleSecretLevelAccess();
+
+            return;
+        }
+
         const resetButton =
             event.target.closest(
                 ".reset-quiz-btn"
@@ -1821,34 +1910,6 @@ document.addEventListener(
                 resetButton.dataset.difficulty,
                 resetButton.dataset.group
             );
-
-            return;
-        }
-
-        const resetSecretButton =
-            event.target.closest(
-                ".reset-secret-btn"
-            );
-
-        if (resetSecretButton) {
-            const questionType =
-                resetSecretButton
-                    .dataset
-                    .secretType;
-
-            localStorage.removeItem(
-                getSecretScoreKey(
-                    questionType
-                )
-            );
-
-            localStorage.removeItem(
-                getSecretCompletedKey(
-                    questionType
-                )
-            );
-
-            renderApp();
 
             return;
         }
@@ -1874,9 +1935,27 @@ document.addEventListener(
             return;
         }
 
+        const quizSection =
+            clickedButton.closest(
+                ".quiz-section"
+            );
+
+        if (!quizSection) {
+            return;
+        }
+
         const answerButtons =
             answerBox.querySelectorAll(
                 ".quiz-answer-btn"
+            );
+
+        const isCorrectAnswer =
+            clickedButton.dataset.correct ===
+            "true";
+
+        const isSecretQuiz =
+            Boolean(
+                quizSection.dataset.secretType
             );
 
         answerButtons.forEach(button => {
@@ -1896,10 +1975,7 @@ document.addEventListener(
             "selected-answer"
         );
 
-        if (
-            clickedButton.dataset.correct ===
-            "true"
-        ) {
+        if (isCorrectAnswer) {
             clickedButton.textContent =
                 `✅ ${clickedButton.textContent}`;
         } else {
@@ -1909,15 +1985,25 @@ document.addEventListener(
 
             clickedButton.textContent =
                 `❌ ${clickedButton.textContent}`;
-        }
 
-        const quizSection =
-            clickedButton.closest(
-                ".quiz-section"
-            );
+            if (isSecretQuiz) {
+                activateSecretFailure();
 
-        if (!quizSection) {
-            return;
+                const allSecretButtons =
+                    document.querySelectorAll(
+                        '[data-secret-type] .quiz-answer-btn'
+                    );
+
+                allSecretButtons.forEach(button => {
+                    button.disabled = true;
+                });
+
+                setTimeout(() => {
+                    renderApp();
+                }, 700);
+
+                return;
+            }
         }
 
         if (
@@ -1935,7 +2021,6 @@ document.addEventListener(
 /* =========================================
    IMAGE ZOOM
 ========================================= */
-
 
 function initImageZoom() {
     const imageOverlay =
@@ -1956,11 +2041,6 @@ function initImageZoom() {
     }
 
     function openImage(image) {
-        /*
-           Placeholder i zaključane nagrade
-           ne smiju se povećavati.
-        */
-
         const rewardCard =
             image.closest(
                 ".quiz-reward-card"
@@ -2034,8 +2114,10 @@ function initImageZoom() {
         "click",
         event => {
             if (
-                event.target === imageOverlay ||
-                event.target === overlayImage
+                event.target ===
+                    imageOverlay ||
+                event.target ===
+                    overlayImage
             ) {
                 closeImage();
             }
@@ -2057,8 +2139,6 @@ function initImageZoom() {
     );
 }
 
-
-
 /* =========================================
    INIT
 ========================================= */
@@ -2068,6 +2148,12 @@ window.addEventListener(
     () => {
         renderApp();
         initImageZoom();
+
+        if (
+            typeof applyRoleUI ===
+            "function"
+        ) {
+            applyRoleUI();
+        }
     }
 );
-

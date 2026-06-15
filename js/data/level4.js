@@ -166,12 +166,6 @@ const questions4 = {
             "Da"
         ),
 
-        q4YesNo(
-            "q4-yes-no-mad-max-01",
-            "Mad Max",
-            "Je li osnovni svijet filma Mad Max vezan uz raspad društva i nasilnu postapokaliptičnu budućnost?",
-            "Da"
-        ),
 
         q4YesNo(
             "q4-yes-no-masters-universe-01",
@@ -180,12 +174,6 @@ const questions4 = {
             "Da"
         ),
 
-        q4YesNo(
-            "q4-yes-no-abyss-01",
-            "The Abyss",
-            "Je li The Abyss klasični alien horror poput filma Alien?",
-            "Ne"
-        ),
 
         q4YesNo(
             "q4-yes-no-andromeda-01",
@@ -202,18 +190,32 @@ const questions4 = {
         ),
 
         q4YesNo(
-            "q4-yes-no-they-live-01",
-            "They Live",
-            "Je li They Live dobar primjer filma o skrivenoj društvenoj kontroli?",
+            "q4-yes-no-alien-3-01",
+            "Alien 3",
+            "Zove li se zatvorski planet na kojem Ripley završava Fiorina 151?",
+            "Ne"
+        ),
+
+        q4YesNo(
+            "q4-yes-no-highlander-2-01",
+            "Highlander II: The Quickening",
+            "Je li umjetni štit oko Zemlje izgrađen kako bi zamijenio oštećeni ozonski sloj?",
             "Da"
         ),
 
         q4YesNo(
-            "q4-yes-no-videodrome-01",
-            "Videodrome",
-            "Prikazuje li Videodrome tehnologiju i medij kao silu koja mijenja ljudsku stvarnost?",
+            "q4-yes-no-mad-max-3-01",
+            "Mad Max Beyond Thunderdome",
+            "Dolazi li Max do Thunderdomea tako što javno optuži Mastera da mu je ukrao vozilo, nakon čega se dogovara borba protiv Blastera?",
             "Da"
-        )
+        ),
+
+        q4YesNo(
+            "q4-yes-no-close-encounters-01",
+            "Close Encounters of the Third Kind",
+            "Objavljuju li vlasti na televiziji lažnu vijest da je nakon željezničke nesreće iscurio otrovni živčani plin kako bi evakuirale područje oko Devil's Towera?",
+            "Da"
+        ),
     ]
 };
 

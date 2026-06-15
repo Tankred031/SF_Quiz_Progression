@@ -49,35 +49,21 @@ function canOpenSecretLevel() {
 ========================================= */
 
 function setSecretLevelAccess(unlocked) {
-    if (
-        typeof isTrainer !== "function" ||
-        !isTrainer()
-    ) {
-        return;
-    }
-
     localStorage.setItem(
-        SECRET_LEVEL_UNLOCK_KEY,
-        unlocked.toString()
+        "sfq-secret-level-unlocked",
+        unlocked ? "true" : "false"
     );
 
     /*
-       Ako administrator zaključa Secret
-       dok se upravo nalazi na Levelu 4,
-       vraćamo prikaz na Level 1.
+       Novo adminovo otključavanje znači
+       i potpuno novi hardcore pokušaj.
     */
 
     if (
-        !unlocked &&
-        typeof activeLevel !== "undefined" &&
-        activeLevel === 4
+        unlocked &&
+        typeof resetSecretFailed === "function"
     ) {
-        activeLevel = 1;
-
-        localStorage.setItem(
-            "sfq-active-level",
-            "1"
-        );
+        resetSecretFailed(false);
     }
 
     if (
@@ -85,12 +71,6 @@ function setSecretLevelAccess(unlocked) {
     ) {
         renderApp();
     }
-}
-
-function toggleSecretLevelAccess() {
-    setSecretLevelAccess(
-        !isSecretLevelUnlocked()
-    );
 }
 
 /* =========================================
