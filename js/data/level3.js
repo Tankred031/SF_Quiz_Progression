@@ -527,12 +527,12 @@ const questions3 = {
                 "Dr. Edward Morbius"
             ),
             q3(
-                "q3-hard-machines-blue-thunder-01",
-                "Blue Thunder",
-                "Kako se zove pilot kojeg Roy Scheider glumi u filmu Blue Thunder?",
-                "Frank Murphy",
-                "Jack Ramsay",
-                "Felix Stone"
+                "q3-hard-machines-terminator-3-rise-of-the-machines-01",
+                "Terminator 3: Rise of the Machines",
+                "Koji izvor energije pokreće T-X?",
+                "Plazmeni reaktor",
+                "Dvije vodikove gorivne ćelije",
+                "Solarna baterija"
             ),
             q3(
                 "q3-hard-machines-videodrome-02",
