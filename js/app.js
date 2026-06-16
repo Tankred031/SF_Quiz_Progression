@@ -18,7 +18,7 @@ let activeLevel =
 const LEVEL_CONFIGS = {
     1: {
         id: 1,
-        title: "Dani prošle budućnosti",
+        title: "Dead or alive, you're coming with me!",
         label: "LEVEL 1 — Poznati filmovi",
         image: "assets/images/year1.png",
         subtext:
@@ -45,7 +45,7 @@ const LEVEL_CONFIGS = {
 
     2: {
         id: 2,
-        title: "Neobjašnjivi signali iz dubine žanra",
+        title: "Roads? Where we go, we don't need roads.",
         label: "LEVEL 2 — Slabije poznati filmovi",
         image: "assets/images/year2.png",
         subtext:
@@ -72,7 +72,7 @@ const LEVEL_CONFIGS = {
 
     3: {
         id: 3,
-        title: "Arhiva zabranjenih svjetova",
+        title: "My experiment's at critical stage, I can't just leave now!!",
         label: "LEVEL 3 — Nepoznati filmovi",
         image: "assets/images/year3b.png",
         subtext:
@@ -99,7 +99,7 @@ const LEVEL_CONFIGS = {
 
     4: {
         id: 4,
-        title: "Tajna arhiva nemogućih svjetova",
+        title: "There can be only one.",
         label: "SECRET LEVEL — Hardcore Archive",
         image: "assets/images/year4.png",
         subtext:
