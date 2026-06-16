@@ -169,7 +169,7 @@ const questions1 = {
             q1(
                 "q1-light-aliens-dune-01",
                 "Dune",
-                "Na pranetu Arrakis, iz filma Dune, nedostaje čega?",
+                "Na planetu Arrakis, iz filma Dune, nedostaje čega?",
                 "Vode",
                 "Ljudi",
                 "Svjetlosti"
@@ -254,7 +254,7 @@ const questions1 = {
                 "Boba i Julesa"
             ),
             q1(
-                "q1-medium-machines-2001-a-space-odyssey-01",
+                "q1-medium-machines-2001-a-space-odyssey-02",
                 "2001: A Space Odyssey",
                 "Prema kojem planetu putuje brod Discovery One?",
                 "Jupiteru",
@@ -279,7 +279,7 @@ const questions1 = {
             ),
             q1(
                 "q1-medium-machines-robocop2-01",
-                "Robocop 2",
+                "RoboCop 2",
                 "Kako se zove droga koja vlada ulicama Detroita u filmu RoboCop 2?",
                 "Nuke",
                 "Wipe",
@@ -288,13 +288,13 @@ const questions1 = {
             q1(
                 "q1-medium-machines-blade-runner-02",
                 "Blade Runner",
-                "Koliko je odbjeglih reprikanata u filmu Blade Runner?",
-                "6",
+                "Koliko replikanata treba umiroviti u filmu Blade Runner?",
+                "5",
                 "4",
-                "5"
+                "6"
             ),
             q1(
-                "q1-medium-machines-tron-02",
+                "q1-medium-machines-tron-01",
                 "Tron",
                 "Kako se zove programer kojeg glumi Jeff Bridges u filmu Tron?",
                 "Kevin Flynn",
@@ -369,7 +369,7 @@ const questions1 = {
                 "Hulk Hogan"
             ),
             q1(
-                "reserve-q1-hard-dystopia-mad-max-02",
+                "q1-medium-dystopia-mad-max-02",
                 "Mad Max",
                 "Kako se zove Maxov prijatelj i kolega kojeg banda teško ozlijedi?",
                 "Jim Goose",
@@ -538,7 +538,7 @@ const questions1 = {
                 "Earl Boen"
             ),
             q1(
-                "q1-hard-machines-tron-01",
+                "q1-hard-machines-tron-02",
                 "Tron",
                 "Kako se zove Flynnova izvorna kopija-program koji se kasnije pojavljuje i u nastavku?",
                 "CLU",
@@ -553,7 +553,7 @@ const questions1 = {
                 "Mad Max",
                 "Oznake na vozilima MFP u 'Mad Max' znače:",
                 "Main Force Patrol",
-                "krivi odgovor",
+                "Motor Force Patrol",
                 "Motorized Federal Police"
             ),
             q1(
@@ -581,7 +581,7 @@ const questions1 = {
                 "Muramasa"
             ),
             q1(
-                "q1-medium-dystopia-a-clockwork-orange-01",
+                "q1-hard-dystopia-a-clockwork-orange-01",
                 "A Clockwork Orange",
                 "Kako se zove terapija kojom vlast pokušava preodgojiti Alexa?",
                 "Ludovicova tehnika",
@@ -616,7 +616,7 @@ const questions1 = {
 
         aliens: [
             q1(
-                "q1-medium-mythic-flash-gordon-01",
+                "q1-hard-mythic-flash-gordon-01",
                 "Flash Gordon",
                 "Kako se zove kći Minga Nemilosrdnog u filmu Flash Gordon?",
                 "Princeza Aura",
@@ -632,7 +632,7 @@ const questions1 = {
                 "Monument Valley"
             ),
             q1(
-                "q1-light-aliens-et-the-extra-terrestrial-01",
+                "q1-hard-aliens-et-the-extra-terrestrial-01",
                 "E.T. the Extra-Terrestrial",
                 "Kako se zove dječak koji se sprijatelji s E.T.-jem?",
                 "Elliott",
