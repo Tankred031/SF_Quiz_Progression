@@ -196,10 +196,10 @@ const questions4 = {
         ),
 
         q4YesNo(
-            "q4-yes-no-highlander-2-01",
-            "Highlander II: The Quickening",
-            "Je li umjetni štit oko Zemlje izgrađen kako bi zamijenio oštećeni ozonski sloj?",
-            "Da"
+            "q4-yes-no-ghostbusters-01",
+            "Ghostbusters",
+            "Jesu li članovi Ghostbusters tima Peter Venkman, Ray Stantz, Egon Spengler i Michael Hartman?",
+            "Ne"
         ),
 
         q4YesNo(
