@@ -1,30 +1,57 @@
 /* =========================================
    QUIZ REWARD SYSTEM
+
+   Ovaj file upravlja samo:
+   - putanjama pojedinačnih nagrada
+   - flip karticama
+   - zaključavanjem i otključavanjem
+   - vraćanjem spremljenog stanja
+   - testnim gumbom
+
+   Završne Level 3 i Secret slike
+   nalaze se u completion.js.
 ========================================= */
+
 
 /* =========================================
-   REWARD PATHS / KEYS
+   01. REWARD PATHS / KEYS
 ========================================= */
 
-function getRewardKey(year, month, week) {
+function getRewardKey(
+    year,
+    month,
+    week
+) {
     return `quiz-reward-${year}-${month}-${week}`;
 }
 
-function getRewardImage(year, month, week) {
-    return `assets/images/copyright-risk/reward-${year}-${month}-${week}.png`;
+function getRewardImage(
+    year,
+    month,
+    week
+) {
+    return (
+        "assets/images/copyright-risk/" +
+        `reward-${year}-${month}-${week}.png`
+    );
 }
 
+
 /* =========================================
-   REWARD RENDER
+   02. REWARD CARD RENDER
 ========================================= */
 
-
-function renderQuizReward(year, month, week) {
-    const frontImage = getRewardImage(
-        year,
-        month,
-        week
-    );
+function renderQuizReward(
+    year,
+    month,
+    week
+) {
+    const frontImage =
+        getRewardImage(
+            year,
+            month,
+            week
+        );
 
     const backImage =
         "assets/images/rewards/back.png";
@@ -56,27 +83,30 @@ function renderQuizReward(year, month, week) {
                     <img
                         src="${frontImage}"
                         alt="Otključana nagrada"
-                        class="zoomable-image reward-zoom-image"
+                        class="
+                            zoomable-image
+                            reward-zoom-image
+                        "
 
                         onerror="
                             this.onerror = null;
                             this.src = '${placeholderImage}';
 
                             const card =
-                                this.closest('.quiz-reward-card');
+                                this.closest(
+                                    '.quiz-reward-card'
+                                );
 
                             if (card) {
-                                card.dataset.hasReward = 'false';
+                                card.dataset.hasReward =
+                                    'false';
 
                                 card.classList.add(
                                     'placeholder-reward'
                                 );
 
                                 card.classList.remove(
-                                    'unlocked'
-                                );
-
-                                card.classList.remove(
+                                    'unlocked',
                                     'newly-unlocked'
                                 );
 
@@ -104,12 +134,13 @@ function renderQuizReward(year, month, week) {
 }
 
 
-
 /* =========================================
-   PLACEHOLDER CHECK
+   03. PLACEHOLDER CHECK
 ========================================= */
 
-function isPlaceholderRewardCard(rewardCard) {
+function isPlaceholderRewardCard(
+    rewardCard
+) {
     if (!rewardCard) {
         return true;
     }
@@ -120,10 +151,13 @@ function isPlaceholderRewardCard(rewardCard) {
         );
 
     return (
-        rewardCard.dataset.hasReward === "false" ||
+        rewardCard.dataset.hasReward ===
+            "false" ||
+
         rewardCard.classList.contains(
             "placeholder-reward"
         ) ||
+
         (
             frontImage &&
             frontImage.src.includes(
@@ -133,20 +167,20 @@ function isPlaceholderRewardCard(rewardCard) {
     );
 }
 
+
 /* =========================================
-   LOCK REWARD
+   04. LOCK REWARD CARD
 ========================================= */
 
-function lockRewardCard(rewardCard) {
+function lockRewardCard(
+    rewardCard
+) {
     if (!rewardCard) {
         return;
     }
 
     rewardCard.classList.remove(
-        "unlocked"
-    );
-
-    rewardCard.classList.remove(
+        "unlocked",
         "newly-unlocked"
     );
 
@@ -155,17 +189,27 @@ function lockRewardCard(rewardCard) {
     );
 }
 
+
 /* =========================================
-   UNLOCK REWARD
+   05. UNLOCK REWARD CARD
 ========================================= */
 
-function unlockQuizReward(rewardCard) {
+function unlockQuizReward(
+    rewardCard
+) {
     if (!rewardCard) {
         return;
     }
 
-    if (isPlaceholderRewardCard(rewardCard)) {
-        lockRewardCard(rewardCard);
+    if (
+        isPlaceholderRewardCard(
+            rewardCard
+        )
+    ) {
+        lockRewardCard(
+            rewardCard
+        );
+
         return;
     }
 
@@ -178,9 +222,14 @@ function unlockQuizReward(rewardCard) {
     const week =
         rewardCard.dataset.rewardWeek;
 
-    rewardCard.classList.remove("locked");
-    rewardCard.classList.add("unlocked");
-    rewardCard.classList.add("newly-unlocked");
+    rewardCard.classList.remove(
+        "locked"
+    );
+
+    rewardCard.classList.add(
+        "unlocked",
+        "newly-unlocked"
+    );
 
     localStorage.setItem(
         getRewardKey(
@@ -192,8 +241,8 @@ function unlockQuizReward(rewardCard) {
     );
 
     /*
-       Označava trenutni kviz završenim
-       i aktivira sljedeći tjedan ili mjesec.
+       Podrška za dodatni progression sustav,
+       ako je funkcija definirana.
     */
 
     if (
@@ -208,9 +257,8 @@ function unlockQuizReward(rewardCard) {
     }
 
     /*
-       Najprije ostavimo animaciju nagrade,
-       a zatim ponovno prikažemo aplikaciju
-       kako bi se vidio sljedeći otključani dio.
+       Nakon flip animacije ponovno se
+       renderira aplikacija.
     */
 
     setTimeout(() => {
@@ -227,11 +275,14 @@ function unlockQuizReward(rewardCard) {
     }, 1200);
 }
 
+
 /* =========================================
-   CHECK QUIZ RESULT
+   06. CHECK QUIZ RESULT
 ========================================= */
 
-function checkQuizReward(weekBlock) {
+function checkQuizReward(
+    weekBlock
+) {
     if (!weekBlock) {
         return;
     }
@@ -299,8 +350,9 @@ function checkQuizReward(weekBlock) {
     }
 }
 
+
 /* =========================================
-   RESTORE REWARDS
+   07. RESTORE SAVED REWARD STATES
 ========================================= */
 
 function restoreQuizRewards() {
@@ -359,9 +411,10 @@ function restoreQuizRewards() {
     });
 }
 
+
 /* =========================================
-   TEST REWARD BUTTON
-   Samo za razvoj i testiranje
+   08. TEST REWARD BUTTON
+   Samo za razvoj
 ========================================= */
 
 function createTestRewardButton() {
@@ -406,298 +459,4 @@ function createTestRewardButton() {
             });
         }
     );
-}
-
-/* =========================================
-   LEVEL / QUIZ COMPLETION REWARDS
-========================================= */
-
-/*
-    PUTANJE ZAVRŠNIH SLIKA
-
-    LEVEL 3:
-    - dvije završne slike
-    - nema konačne slike cijelog kviza
-
-    SECRET LEVEL:
-    - dvije završne slike
-    - jedna konačna slika cijelog kviza
-*/
-
-const COMPLETION_REWARD_IMAGES = {
-    level3: [
-        "assets/images/copyright-risk/YouMadeIt-Figures.png",
-        "assets/images/copyright-risk/IdontBelieveInNoWinScenario.png"
-    ],
-
-    secret: [
-        "assets/images/copyright-risk/reward-4-1-1.png",
-        "assets/images/copyright-risk/reward-4-1-2.png"
-    ],
-
-    final:
-        "assets/images/copyright-risk/reward-4-2-3.png"
-};
-
-/* =========================================
-   IMAGE HTML
-========================================= */
-
-function renderCompletionImage(
-    imagePath,
-    altText,
-    extraClass = ""
-) {
-    if (!imagePath) {
-        return "";
-    }
-
-    return `
-        <div
-            class="
-                completion-image-card
-                ${extraClass}
-            "
-        >
-            <img
-                src="${imagePath}"
-                alt="${altText}"
-                class="
-                    completion-image
-                    zoomable-image
-                "
-                loading="lazy"
-
-                onerror="
-                    const card =
-                        this.closest(
-                            '.completion-image-card'
-                        );
-
-                    if (card) {
-                        card.remove();
-                    }
-                "
-            >
-        </div>
-    `;
-}
-
-/* =========================================
-   LEVEL 3 COMPLETION CHECK
-========================================= */
-
-function isLevel3Completed() {
-    /*
-        Level 3 ima:
-
-        3 teme:
-        - machines
-        - dystopia
-        - aliens
-
-        3 težine:
-        - light
-        - medium
-        - hard
-
-        Ukupno 9 kvizova.
-    */
-
-    const difficulties = [
-        "light",
-        "medium",
-        "hard"
-    ];
-
-    const groups = [
-        "machines",
-        "dystopia",
-        "aliens"
-    ];
-
-    return groups.every(group => {
-        return difficulties.every(
-            difficulty => {
-                const completedKey = [
-                    "sfq",
-                    "level-3",
-                    difficulty,
-                    group,
-                    "completed"
-                ].join("-");
-
-                return (
-                    localStorage.getItem(
-                        completedKey
-                    ) === "true"
-                );
-            }
-        );
-    });
-}
-
-/* =========================================
-   LEVEL 3 COMPLETION RENDER
-========================================= */
-
-function renderLevel3Completion() {
-    if (!isLevel3Completed()) {
-        return "";
-    }
-
-    const images =
-        COMPLETION_REWARD_IMAGES
-            .level3
-            .map(
-                (imagePath, index) =>
-                    renderCompletionImage(
-                        imagePath,
-                        `Level 3 završna slika ${index + 1}`
-                    )
-            )
-            .join("");
-
-    return `
-        <section
-            class="
-                completion-section
-                level-3-completion
-            "
-        >
-            <div class="completion-heading">
-
-                <div class="completion-kicker">
-                    ARHIVA OSVOJENA
-                </div>
-
-                <h2>
-                    Level 3 završen!
-                </h2>
-
-                <p>
-                    Arhiva zabranjenih svjetova
-                    uspješno je završena.
-                </p>
-
-            </div>
-
-            <div
-                class="
-                    completion-gallery
-                    completion-gallery-two
-                "
-            >
-                ${images}
-            </div>
-
-        </section>
-    `;
-}
-
-/* =========================================
-   SECRET COMPLETION CHECK
-========================================= */
-
-function isSecretArchiveCompleted() {
-    const multipleChoiceCompleted =
-        localStorage.getItem(
-            "sfq-level-4-multipleChoice-completed"
-        ) === "true";
-
-    const yesNoCompleted =
-        localStorage.getItem(
-            "sfq-level-4-yesNo-completed"
-        ) === "true";
-
-    return (
-        multipleChoiceCompleted &&
-        yesNoCompleted
-    );
-}
-
-/* =========================================
-   SECRET COMPLETION RENDER
-========================================= */
-
-function renderSecretCompletion() {
-    if (!isSecretArchiveCompleted()) {
-        return "";
-    }
-
-    const secretImages =
-        COMPLETION_REWARD_IMAGES
-            .secret
-            .map(
-                (imagePath, index) =>
-                    renderCompletionImage(
-                        imagePath,
-                        `Secret Archive nagrada ${index + 1}`
-                    )
-            )
-            .join("");
-
-    const finalImage =
-        renderCompletionImage(
-            COMPLETION_REWARD_IMAGES.final,
-            "Konačna nagrada SF kviza",
-            "completion-image-final"
-        );
-
-    return `
-        <section
-            class="
-                completion-section
-                secret-completion
-            "
-        >
-            <div class="completion-heading">
-
-                <div class="completion-kicker">
-                    ARHIVA OSVOJENA
-                </div>
-
-                <h2>
-                    Hardcore Archive završen!
-                </h2>
-
-                <p>
-                    Secret Level je uspješno završen.
-                    Konačna arhiva je otključana.
-                </p>
-
-            </div>
-
-            <div
-                class="
-                    completion-gallery
-                    completion-gallery-two
-                "
-            >
-                ${secretImages}
-            </div>
-
-            <div class="final-reward-heading">
-
-                <div class="completion-kicker">
-                    FINAL REWARD
-                </div>
-
-                <h3>
-                    SF Quiz Progression završen
-                </h3>
-
-            </div>
-
-            <div
-                class="
-                    completion-gallery
-                    completion-gallery-final
-                "
-            >
-                ${finalImage}
-            </div>
-
-        </section>
-    `;
 }
