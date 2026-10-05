@@ -15,7 +15,8 @@ The application uses a progression system based on:
 * thematic quiz groups
 * difficulty settings
 * locked, active, and completed states
-* trainer-controlled unlocking
+* score-based unlocking of Medium and Hard difficulties
+* trainer-controlled access to the Secret Level
 * randomized quiz questions
 * collectible reward cards
 * persistent user progress
@@ -50,14 +51,14 @@ The quiz primarily focuses on classic science fiction movies from the 1960s thro
 * User mode
 * Conditional interface rendering
 * Permission-based controls
-* Separate access rules for locked and active quiz sections
-* Trainer-controlled progression unlocking
+* Levels 1–3 are always available to every user
+* Trainer-controlled unlocking of the Secret Level (the trainer can always open it)
 
 ### Quiz Progression
 
 * Multi-level progression structure
 * Locked, active, and completed states
-* Difficulty-based quiz stages
+* Difficulty-based quiz stages (Medium and Hard unlock after reaching a required score in the previous difficulty)
 * Theme-based quiz groups
 * Level completion tracking
 * Unlockable rewards
@@ -100,8 +101,8 @@ Each quiz session selects questions according to:
 The application stores progress through LocalStorage, including:
 
 * completed quizzes
-* unlocked levels
-* trainer changes
+* Secret Level access set by the trainer
+* unlocked difficulties
 * selected level
 * user role
 * feedback state
