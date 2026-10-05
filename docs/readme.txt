@@ -76,7 +76,6 @@ Questions are also divided by theme:
 * machines
 * dystopia
 * aliens
-* mythic
 
 Each quiz session selects questions according to:
 
@@ -124,17 +123,27 @@ The application stores progress through LocalStorage, including:
 
 ## Project Structure
 
-The application is separated into multiple JavaScript and CSS files for improved organization and maintainability.
+The application is a single page (`index.html`) separated into multiple JavaScript and CSS files for improved organization and maintainability. A full tree is available in `struktura.txt`.
 
-Examples include:
+* `index.html` — the application page
+* `js/login.js` — login and role management
+* `js/admin.js` — trainer controls and Secret Level unlocking
+* `js/user.js` — user access helpers
+* `js/app.js` — level configuration, rendering, question selection and quiz logic
+* `js/reward.js` — flip-card rewards, locking and unlocking
+* `js/completion.js` — final screens for Level 3 and the Secret Level
+* `js/failed.js` — failure state of the Secret Level
+* `js/data/level1.js` – `level4.js` — question databases, one file per level
+* `css/quiz.css` — main visual design and responsive styling
+* `css/reward.css` — reward cards and completion screens
 
-* `login.js` — login and role management
-* `admin.js` — trainer controls and unlocking logic
-* `user.js` — user access helpers
-* `trening.js` — main rendering and quiz logic
-* `questions.js` — quiz question database
-* progression data files — level, theme, and reward configuration
-* `trening.css` — main visual design and responsive styling
+Files kept in the repository but not loaded by `index.html`:
+
+* `js/questions.js` — old question database
+* `js/reminder.js` — theme reminder notes
+* `js/data/rezerve.js` — reserve / removed questions
+
+Reward and completion images are expected in `assets/images/copyright-risk/`, which is excluded from the repository through `.gitignore`.
 
 ---
 

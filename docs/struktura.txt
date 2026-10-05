@@ -1,36 +1,56 @@
-Folder PATH listing
-Volume serial number is 00000008 AE43:A6AC
-C:.
-|   struktura.txt
-|   trening.html
-|   
+SF Quiz Progression 1.0 - struktura projekta
+
+SF_Quiz_Progression
+|   index.html              glavna (jedina) stranica aplikacije
+|   .gitignore              ignorira audio/video te copyright-risk mape
+|
 +---assets
 |   +---audio
-|   |       wrong.mp3
-|   |       
+|   |       wrong.mp3       zvuk pogresnog odgovora (ignoriran u gitu: *.mp3)
+|   |
 |   \---images
-|           ONeilSW2.png
-|           Peter2.png
-|           Ripley2.png
-|           Robbie.png
-|           
+|       |   extraterrestrial.png   favicon
+|       |   year1.png              hero slika - Level 1
+|       |   year2.png              hero slika - Level 2
+|       |   year3b.png             hero slika - Level 3
+|       |   year4.png              hero slika - Secret Level
+|       |
+|       +---rewards
+|       |       back.png           stražnja strana reward kartice
+|       |       placeholder.png    zamjenska kartica
+|       |
+|       \---copyright-risk         (nije u repou, vidi .gitignore)
+|                                  reward kartice te slike za
+|                                  failed / completion ekrane
+|
 +---css
-|       trening.css
-|       
+|       quiz.css            glavni vizualni stil, login, hero, responzivnost
+|       reward.css          reward kartice (flip) i completion ekrani
+|
 +---docs
-|       readme.txt
-|       struktura.txt
-|       
+|       readme.txt         opis projekta
+|       struktura.txt      ovaj file
+|
 \---js
-    |   admin.js
-    |   login.js
-    |   questions.js
-    |   reminder.js
-    |   trening.js
-    |   user.js
-    |   
+    |   login.js           login i uloge (trainer / user)
+    |   admin.js           trainer kontrole, otkljucavanje Secret Levela
+    |   user.js            pristup levelima za obicnog korisnika
+    |   app.js             glavna logika: konfiguracija levela, renderiranje,
+    |                      odabir pitanja, tijek kviza, rezultati
+    |   reward.js          reward kartice, zakljucavanje / otkljucavanje
+    |   completion.js      zavrsni ekrani za Level 3 i Secret Level
+    |   failed.js          neuspjeh u Secret Levelu (jedan pogresan odgovor)
+    |   reminder.js        podsjetnik na teme (nije ucitan u index.html)
+    |   questions.js       stara baza pitanja (nije ucitana u index.html)
+    |
     \---data
-            year-one.js
-            year-three.js
-            year-two.js
-            
+            level1.js      Level 1 - poznati filmovi (questions1)
+            level2.js      Level 2 - slabije poznati filmovi (questions2)
+            level3.js      Level 3 - nepoznati / opskurni filmovi (questions3)
+            level4.js      Level 4 / Secret - hardcore archive (questions4)
+            rezerve.js     rezervna / izbacena pitanja (nije ucitano)
+
+Redoslijed ucitavanja u index.html (svi s defer):
+    login.js, failed.js, admin.js, user.js,
+    data/level1.js ... data/level4.js,
+    reward.js, completion.js, app.js
