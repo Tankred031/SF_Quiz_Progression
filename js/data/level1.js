@@ -461,7 +461,7 @@ const questions1 = {
                 "Richard Harris"
             ),
             q1(
-                "q1-medium-aliens-star-wars-02",
+                "q1-medium-aliens-star-wars-03",
                 "Star Wars",
                 "Tko glumi princezu Leiu u originalnom filmu Star Wars?",
                 "Carrie Fisher",
@@ -498,7 +498,7 @@ const questions1 = {
                 "Nexus-8"
             ),
             q1(
-                "q1-medium-machines-tron-01",
+                "q1-hard-machines-tron-01",
                 "Tron",
                 "Što u filmu Tron znači kratica MCP?",
                 "Master Control Program",
@@ -581,7 +581,7 @@ const questions1 = {
                 "Muramasa"
             ),
             q1(
-                "q1-hard-dystopia-a-clockwork-orange-01",
+                "q1-hard-dystopia-a-clockwork-orange-02",
                 "A Clockwork Orange",
                 "Kako se zove terapija kojom vlast pokušava preodgojiti Alexa?",
                 "Ludovicova tehnika",
@@ -616,7 +616,7 @@ const questions1 = {
 
         aliens: [
             q1(
-                "q1-hard-mythic-flash-gordon-01",
+                "q1-hard-aliens-flash-gordon-01",
                 "Flash Gordon",
                 "Kako se zove kći Minga Nemilosrdnog u filmu Flash Gordon?",
                 "Princeza Aura",
@@ -650,7 +650,7 @@ const questions1 = {
             ),
 
             q1(
-                "q1-hard-mythic-flash-gordon-01",
+                "q1-hard-aliens-flash-gordon-02",
                 "Flash Gordon",
                 "Kako se zove šumsko kraljevstvo kojim vlada princ Barin?",
                 "Arboria",

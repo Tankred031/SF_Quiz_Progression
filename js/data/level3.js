@@ -108,6 +108,14 @@ const questions3 = {
                 "Zac"
             ),
             q3(
+                "q3-light-dystopia-a-boy-and-his-dog-02",
+                "A Boy and His Dog",
+                "Kako se zove telepatski pas u filmu A Boy and His Dog?",
+                "Blood",
+                "Rex",
+                "Spike"
+            ),
+            q3(
                 "q3-light-dystopia-escape-from-la-01",
                 "Escape from L.A.",
                 "Koji se antiheroj vraća kao glavni lik u filmu Escape from L.A.?",
@@ -130,14 +138,6 @@ const questions3 = {
                 "Regina i Samantha",
                 "Zira i Nova",
                 "Joanna i Bobby"
-            ),
-            q3(
-                "q3-medium-machines-lawnmower-man-01",
-                "The Lawnmower Man",
-                "Koja tehnologija je ključna za transformaciju Jobea u filmu The Lawnmower Man?",
-                "Virtualna stvarnost",
-                "Kibernetički implantati",
-                "Vanzemaljski signal"
             ),
             q3(
                 "q3-light-dystopia-highlander-01",
